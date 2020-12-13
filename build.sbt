@@ -17,7 +17,7 @@ crossScalaVersions := Nil
 
 inThisBuild(Seq(
   organization := "com.chuusai",
-  scalaVersion := Scala213,
+  scalaVersion := Scala211,
   crossScalaVersions := Seq(Scala211, Scala212, Scala213),
   mimaFailOnNoPrevious := false
 ))
