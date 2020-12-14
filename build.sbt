@@ -22,6 +22,7 @@ inThisBuild(Seq(
   mimaFailOnNoPrevious := false
 ))
 
+/*
 addCommandAlias("root", ";project shapeless")
 addCommandAlias("core", ";project coreJVM")
 addCommandAlias("scratch", ";project scratchJVM")
@@ -33,6 +34,7 @@ addCommandAlias("validateJS", ";coreJS/compile;coreJS/mimaReportBinaryIssues;cor
 addCommandAlias("validateNative", ";coreNative/compile;nativeTest/run;examplesNative/compile")
 addCommandAlias("validateCI", if (isScalaNative) "validateNative" else if (hasScalaJsVersion) "validateJS" else "validateJVM")
 addCommandAlias("runAll", ";examplesJVM/runAll")
+*/
 
 lazy val scoverageSettings = Seq(
   coverageMinimum := 60,
@@ -185,6 +187,7 @@ def runAllIn(config: Configuration): Setting[Task[Unit]] = {
   }
 }
 
+/*
 lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossType(CrossType.Pure)
   .configureCross(configureJUnit)
   .dependsOn(core)
@@ -212,6 +215,7 @@ lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossT
 lazy val examplesJVM = examples.jvm
 lazy val examplesJS = examples.js
 lazy val examplesNative = examples.native
+
 
 lazy val nativeTest = project
   .enablePlugins(ScalaNativePlugin)
@@ -242,6 +246,7 @@ lazy val nativeTest = project
   ).dependsOn(
     examplesNative
   )
+*/
 
 lazy val scalaMacroDependencies: Seq[Setting[_]] = Seq(
   libraryDependencies ++= Seq(
