@@ -108,10 +108,12 @@ lazy val commonJvmSettings = Seq(
   coverageExcludedPackages := "shapeless.examples.*"
 )
 
+/*
 lazy val commonNativeSettings = Seq(
   scalaVersion := Scala211,
   crossScalaVersions := Seq(Scala211)
 )
+*/
 
 lazy val coreSettings = commonSettings ++ publishSettings
 
@@ -123,7 +125,7 @@ lazy val CrossTypeMixed: sbtcrossproject.CrossType = new sbtcrossproject.CrossTy
     val dir = projectType match {
       case JVMPlatform => "jvm"
       case JSPlatform => "js"
-      case NativePlatform => "native"
+      //case NativePlatform => "native"
     }
     crossBase / dir
   }
@@ -132,7 +134,7 @@ lazy val CrossTypeMixed: sbtcrossproject.CrossType = new sbtcrossproject.CrossTy
     Some(projectBase.getParentFile / "src" / conf / "scala")
 }
 
-lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossType(CrossTypeMixed)
+lazy val core = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).crossType(CrossTypeMixed)
   .configureCross(configureJUnit)
   .settings(moduleName := "shapeless")
   .settings(coreSettings:_*)
@@ -145,6 +147,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossType(
   .jvmSettings(commonJvmSettings:_*)
   .jvmSettings(scoverageSettings:_*)
   .jvmSettings(skip in publish := hasScalaJsVersion)
+  /*
   .nativeSettings(skip in publish := hasScalaJsVersion)
   .nativeSettings(
     commonNativeSettings,
@@ -156,12 +159,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossType(
     sources in (Compile,doc) := Nil,
     sources in Test := Nil
   )
+  */
 
 lazy val coreJVM = core.jvm
 lazy val coreJS = core.js
-lazy val coreNative = core.native
+//lazy val coreNative = core.native
 
-lazy val scratch = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossType(CrossType.Pure)
+lazy val scratch = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).crossType(CrossType.Pure)
   .configureCross(configureJUnit)
   .dependsOn(core)
   .settings(moduleName := "scratch")
@@ -169,11 +173,11 @@ lazy val scratch = crossProject(JSPlatform, JVMPlatform, NativePlatform).crossTy
   .settings(noPublishSettings:_*)
   .jsSettings(commonJsSettings:_*)
   .jvmSettings(commonJvmSettings:_*)
-  .nativeSettings(commonNativeSettings:_*)
+  //.nativeSettings(commonNativeSettings:_*)
 
 lazy val scratchJVM = scratch.jvm
 lazy val scratchJS = scratch.js
-lazy val scratchNative = scratch.native
+//lazy val scratchNative = scratch.native
 
 lazy val runAll = TaskKey[Unit]("runAll")
 
@@ -297,7 +301,7 @@ def buildInfoSetup(crossProject: CrossProject): CrossProject = {
     buildInfoKeys := Seq[BuildInfoKey](version, scalaVersion, gitHeadCommit),
     buildInfoOptions += BuildInfoOption.BuildTime
   )
-  crossProject jvmConfigure transform jsConfigure transform nativeConfigure transform
+  crossProject jvmConfigure transform jsConfigure transform //nativeConfigure transform
 }
 
 lazy val coreOsgiSettings = osgiSettings ++ Seq(
